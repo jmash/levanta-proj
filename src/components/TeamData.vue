@@ -1,10 +1,13 @@
 <template>
     <div id="teamData">
-        <ul v-for="mook in mooks">
-            <li>{{ mook.name }}</li>
-            <li>{{ mook.message }}</li>
-            <li>{{ mook.submitTime }}</li>
-        </ul>
+        <div v-for="mook in mooks">
+            <ul>
+                <li>{{ mook.name }}</li>
+                <li>{{ mook.message }}</li>
+                <li>{{ new Date(mook.submitTime.seconds).toLocaleTimeString() }}</li>
+            </ul>
+            <span @click="$emit('removePost', $event.target.id)" :id="mook['.key']">X</span>
+        </div>
     </div>
 </template>
 

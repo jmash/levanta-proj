@@ -37,3 +37,6 @@ Session.vim
 tags
 # Persistent undo
 [._]*.un~
+
+# Firebase config file
+firebaseConfig.js

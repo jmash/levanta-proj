@@ -8,16 +8,41 @@
             ></UserInput>
         </div>
         <OthersMessage text="What's everyone else up to?"></OthersMessage> <!-- "what did everyone else do" or something along those lines -->
-        <TeamData :mooks="mooks"></TeamData> <!-- show data for other team members -->
+        <TeamData :mooks="mooks" @removePost="removePost"></TeamData> <!-- show data for other team members -->
     </div>
 </template>
 
 <script>
 
+import Vue from 'vue';
+
+// components
 import UserInput from './components/UserInput';
 import OthersMessage from './components/OthersMessage';
 import AskMessage from './components/AskMessage';
 import TeamData from './components/TeamData';
+// end components
+
+// firebase
+import Firebase from 'firebase';
+import VueFirestore from 'vue-firestore';
+import fbConfig from './firebaseConfig.js';
+
+Vue.use(VueFirestore);
+
+Firebase.initializeApp({
+    apiKey: fbConfig.apiKey,
+    authDomain: fbConfig.authDomain,
+    projectId: fbConfig.projectId
+});
+
+const firestore = Firebase.firestore();
+const settings = {
+    timestampsInSnapshots: true
+};
+
+firestore.settings(settings);
+// end firebase
 
 export default {
   name: 'app',
@@ -27,27 +52,15 @@ export default {
     AskMessage,
     TeamData
   },
+  firestore() {
+    return {
+        mooks: firestore.collection('mooks')
+    }
+  },
   data() {
       return {
         checkInMessage: "",
         currDate: new Date().toLocaleDateString(),
-        mooks: [
-            {
-                name: "Axel Hyanandezzer",
-                message: "Drank for 20 hours straight then went to bed slightly buzzed",
-                submitTime: new Date('2018-06-18T04:00:00').toLocaleTimeString()
-            },
-            {
-                name: "Big Bear McGillicutty",
-                message: "Ate a bear but mostly its hair",
-                submitTime: new Date('2018-06-18T03:00:00').toLocaleTimeString()
-            },
-            {
-                name: "John Vogelsong Raptorteeth",
-                message: "Destroyed your LIFE",
-                submitTime: new Date('2018-06-18T02:00:00').toLocaleTimeString()
-            }
-        ]
       }
   },
   methods: {
@@ -55,12 +68,16 @@ export default {
         this.addPost(event);
     },
     addPost: function(eventMessage) {
-        this.mooks.push({
+        this.$firestore.mooks.add({
             name: "Jurrd Hurrd McGurrd",
             message: eventMessage,
-            submitTime: new Date().toLocaleTimeString()
+            submitTime: new Date()
         });
-    }
+    },
+    removePost: function(postId) {
+        console.log(postId);
+        this.$firestore.mooks.doc(postId).delete();
+    },
   }
 }
 
