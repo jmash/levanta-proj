@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "firebase": "^5.0.4",
+    "firebaseui": "^3.1.1",
     "vue": "^2.5.16",
     "vue-firebase": "^1.0.8",
-    "vue-firestore": "^0.2.9"
+    "vue-firestore": "^0.2.9",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-rc.3",

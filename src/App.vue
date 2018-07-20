@@ -15,6 +15,7 @@
 <script>
 
 import Vue from 'vue';
+//import 
 
 // components
 import UserInput from './components/UserInput';
@@ -26,7 +27,7 @@ import TeamData from './components/TeamData';
 // firebase
 import Firebase from 'firebase';
 import VueFirestore from 'vue-firestore';
-import fbConfig from './firebaseConfig.js';
+import fbConfig from './helpers/firebaseConfig.js';
 
 Vue.use(VueFirestore);
 
@@ -35,6 +36,7 @@ Firebase.initializeApp({
     authDomain: fbConfig.authDomain,
     projectId: fbConfig.projectId
 });
+
 
 const firestore = Firebase.firestore();
 const settings = {
@@ -75,7 +77,6 @@ export default {
         });
     },
     removePost: function(postId) {
-        console.log(postId);
         this.$firestore.mooks.doc(postId).delete();
     },
   }
