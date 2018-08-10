@@ -68,6 +68,7 @@ export default {
   methods: {
     onCheckIn: function(event) {
         this.addPost(event);
+        this.checkInMessage = "";
     },
     addPost: function(eventMessage) {
         this.$firestore.mooks.add({
